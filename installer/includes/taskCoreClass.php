@@ -40,16 +40,23 @@ class Core {
 
         if (@file_put_contents($output_path, $new)) {
             @chmod($output_path, 0777);
-            return true;
-        } else {
-            // Last ditch effort: try to write via shell if allowed
-            $new_escaped = escapeshellarg($new);
-            @shell_exec("echo $new_escaped > " . realpath($output_path));
-            if (file_exists($output_path) && filesize($output_path) > 0) {
+            // Verify if the content is correct
+            $check = @file_get_contents($output_path);
+            if ($check && strpos($check, $data['database']) !== false) {
                 return true;
             }
-            return false;
         }
+        
+        // Last ditch effort: try to write via shell if allowed
+        $new_escaped = escapeshellarg($new);
+        @shell_exec("echo $new_escaped > " . realpath($output_path));
+        
+        $check = @file_get_contents($output_path);
+        if ($check && strpos($check, $data['database']) !== false) {
+            @chmod($output_path, 0777);
+            return true;
+        }
+        return false;
     }
 
     function checkFile() {

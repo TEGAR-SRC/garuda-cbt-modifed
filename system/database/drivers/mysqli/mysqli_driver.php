@@ -125,7 +125,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 		}
 
 		// Do we have a socket path?
-		if (!empty($this->hostname) && $this->hostname[0] === '/')
+		if (isset($this->hostname) && is_string($this->hostname) && $this->hostname !== '' && $this->hostname[0] === '/')
 		{
 			$hostname = NULL;
 			$port = NULL;
