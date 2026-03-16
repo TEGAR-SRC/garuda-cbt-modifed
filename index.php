@@ -171,7 +171,10 @@ $db_file = dirname(__FILE__) . '/application/config/database.php';
 $is_installed = false;
 
 // DOCKER BYPASS: Jika ada env var, langsung jalan tanpa cek file
-if (getenv('DB_HOSTNAME') && getenv('DB_DATABASE')) {
+$db_host = getenv('DB_HOSTNAME') ?: ($_ENV['DB_HOSTNAME'] ?? ($_SERVER['DB_HOSTNAME'] ?? null));
+$db_name = getenv('DB_DATABASE') ?: ($_ENV['DB_DATABASE'] ?? ($_SERVER['DB_DATABASE'] ?? null));
+
+if ($db_host && $db_name || file_exists('/.dockerenv')) {
     $is_installed = true;
 } elseif (file_exists($db_file)) {
     $content = @file_get_contents($db_file);
