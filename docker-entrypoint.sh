@@ -7,23 +7,25 @@ echo "Starting Garuda CBT Docker Entrypoint..."
 DB_CONFIG="/var/www/html/application/config/database.php"
 
 # 1. Fallback defaults if env vars are empty
-# Siapa tahu sanak lupa isi di Dokploy, kita kasih default dari compose
-# 1. Fallback defaults if env vars are empty
-# Default to 'db' which is the service name in docker-compose.yml
-DB_HOSTNAME=${DB_HOSTNAME:-"db"}
-DB_USERNAME=${DB_USERNAME:-"garuda_user"}
-DB_PASSWORD=${DB_PASSWORD:-"garuda_password"}
-DB_DATABASE=${DB_DATABASE:-"garuda_db"}
+DB_HOSTNAME=${DB_HOSTNAME:-${DB_HOST:-"db"}}
+DB_USERNAME=${DB_USERNAME:-${DB_USER:-"garuda_user"}}
+DB_PASSWORD=${DB_PASSWORD:-${DB_PASS:-"garuda_password"}}
+DB_DATABASE=${DB_DATABASE:-${DB_NAME:-"garuda_db"}}
 
-echo "Using Database Host: $DB_HOSTNAME"
-echo "Using Database Name: $DB_DATABASE"
+echo "--- Garuda CBT Config Status ---"
+echo "Hostname: $DB_HOSTNAME"
+echo "User: $DB_USERNAME"
+echo "Database: $DB_DATABASE"
+echo "--------------------------------"
 
-# Connectivity check (Optional but helpful for logs)
+# Connectivity check
 if command -v getent > /dev/null; then
+    echo "Checking DNS resolution for $DB_HOSTNAME..."
     if getent hosts $DB_HOSTNAME > /dev/null; then
-        echo "✅ Database host '$DB_HOSTNAME' resolved successfully."
+        echo "✅ OK: Database host '$DB_HOSTNAME' resolved."
     else
-        echo "❌ Database host '$DB_HOSTNAME' could not be resolved. Check your Docker network."
+        echo "❌ ERROR: Database host '$DB_HOSTNAME' NOT KNOWN."
+        echo "   Please check your Dokploy/Docker Network settings."
     fi
 fi
 # 2. Hard-replace placeholders in database.php
