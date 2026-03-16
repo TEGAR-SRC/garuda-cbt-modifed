@@ -8,10 +8,20 @@ $base_url = str_replace('installer/', '', $base_url);
 $db_file = '../application/config/database.php';
 $is_configured = false;
 $existing_db = '';
+$db = ['default' => []];
+
 if (file_exists($db_file)) {
-    if (!defined('BASEPATH')) define('BASEPATH', '../');
-    include $db_file;
-    if (isset($db['default']['database']) && $db['default']['database'] != '') {
+    $content = file_get_contents($db_file);
+    $fields = ['hostname', 'username', 'password', 'database'];
+    foreach ($fields as $field) {
+        if (preg_match("/'$field'\s*=>\s*'([^']*)'/", $content, $matches)) {
+            $db['default'][$field] = $matches[1];
+        } else {
+            $db['default'][$field] = '';
+        }
+    }
+    
+    if (!empty($db['default']['database'])) {
         $is_configured = true;
         $existing_db = $db['default']['database'];
     }
