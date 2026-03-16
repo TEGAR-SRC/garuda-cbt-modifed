@@ -160,29 +160,7 @@ if ($database == '') {
     header("Location: installer");
     exit;
 } else {
-    $data = $db['default'];
-    $mysqli = @new mysqli($data['hostname'], $data['username'], $data['password'], $data['database']);
-    
-    if ($mysqli->connect_error) {
-        // If connection fails, maybe the DB hasn't been created yet or credentials changed
-        $mysqli_no_db = @new mysqli($data['hostname'], $data['username'], $data['password'], '');
-        if ($mysqli_no_db->connect_error) {
-            header("Location: installer");
-            exit;
-        }
-        
-        $dbname = $data['database'];
-        $check_db = $mysqli_no_db->query("SHOW DATABASES LIKE '$dbname'");
-        if (!$check_db || $check_db->num_rows == 0) {
-            $mysqli_no_db->close();
-            header("Location: installer");
-            exit;
-        }
-        $mysqli_no_db->close();
-    } else {
-        $mysqli->close();
-    }
-    
-    // All checks passed, load CodeIgniter
+    // If database is configured, load CodeIgniter.
+    // CI will show its own error page if the connection fails.
     require_once BASEPATH . 'core/CodeIgniter.php';
 }
