@@ -12,8 +12,7 @@
   },
   "require": {
     "php": ">=7.3",
-    "ext-dom": "*",
-	"ext-mysqli": "*",
+    "ext-mysqli": "*",
 	"ext-fileinfo": "*",
 	"ext-zip": "*",
     "phpoffice/phpspreadsheet": "1.*",
@@ -23,8 +22,7 @@
     "dompdf/dompdf": "^1.0",
     "ext-gd": "*",
     "ext-iconv": "*",
-    "ext-calendar": "*",
-    "ext-libxml": "*"
+    "ext-calendar": "*"
   },
   "suggest": {
     "paragonie/random_compat": "Provides better randomness in PHP 5.x"
