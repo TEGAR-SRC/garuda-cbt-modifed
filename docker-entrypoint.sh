@@ -5,29 +5,22 @@ echo "Starting Garuda CBT Docker Entrypoint..."
 
 # Path to files
 DB_CONFIG="/var/www/html/application/config/database.php"
-APACHE_ENV="/etc/apache2/envvars"
 
-# 1. Inject to Apache envvars (The only way to be 100% sure PHP getenv() works)
-echo "Injecting Environment Variables to Apache..."
-[ ! -z "$DB_HOSTNAME" ] && echo "export DB_HOSTNAME=$DB_HOSTNAME" >> $APACHE_ENV
-[ ! -z "$DB_USERNAME" ] && echo "export DB_USERNAME=$DB_USERNAME" >> $APACHE_ENV
-[ ! -z "$DB_PASSWORD" ] && echo "export DB_PASSWORD=$DB_PASSWORD" >> $APACHE_ENV
-[ ! -z "$DB_DATABASE" ] && echo "export DB_DATABASE=$DB_DATABASE" >> $APACHE_ENV
+# 1. Fallback defaults if env vars are empty
+# Siapa tahu sanak lupa isi di Dokploy, kita kasih default dari compose
+DB_HOSTNAME=${DB_HOSTNAME:-"garuda-db"}
+DB_USERNAME=${DB_USERNAME:-"garuda_user"}
+DB_PASSWORD=${DB_PASSWORD:-"garuda_password"}
+DB_DATABASE=${DB_DATABASE:-"garuda_db"}
 
-# 2. Hard-replace placeholders in database.php as safety backup
-echo "Checking placeholders in $DB_CONFIG..."
-if [ ! -z "$DB_HOSTNAME" ]; then
-    sed -i "s/%HOSTNAME%/$DB_HOSTNAME/g" $DB_CONFIG
-fi
-if [ ! -z "$DB_USERNAME" ]; then
-    sed -i "s/%USERNAME%/$DB_USERNAME/g" $DB_CONFIG
-fi
-if [ ! -z "$DB_PASSWORD" ]; then
-    sed -i "s/%PASSWORD%/$DB_PASSWORD/g" $DB_CONFIG
-fi
-if [ ! -z "$DB_DATABASE" ]; then
-    sed -i "s/%DATABASE%/$DB_DATABASE/g" $DB_CONFIG
-fi
+echo "Using Database Host: $DB_HOSTNAME"
+
+# 2. Hard-replace placeholders in database.php
+# Kita ganti paksa tulisan %HOSTNAME% di file jadi isi variabelnya
+sed -i "s/%HOSTNAME%/$DB_HOSTNAME/g" $DB_CONFIG
+sed -i "s/%USERNAME%/$DB_USERNAME/g" $DB_CONFIG
+sed -i "s/%PASSWORD%/$DB_PASSWORD/g" $DB_CONFIG
+sed -i "s/%DATABASE%/$DB_DATABASE/g" $DB_CONFIG
 
 # 3. Create Session directory if not exists
 mkdir -p /var/www/html/application/cache/sessions
