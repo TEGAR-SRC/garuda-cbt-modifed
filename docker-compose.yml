@@ -30,7 +30,7 @@ services:
     ports:
       - "8080:80"
     environment:
-      - DB_HOSTNAME=garuda-db
+      - DB_HOSTNAME=db
       - DB_USERNAME=garuda_user
       - DB_PASSWORD=garuda_password
       - DB_DATABASE=garuda_db

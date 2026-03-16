@@ -9,8 +9,8 @@ DB_CONFIG="/var/www/html/application/config/database.php"
 # 1. Fallback defaults if env vars are empty
 # Siapa tahu sanak lupa isi di Dokploy, kita kasih default dari compose
 # 1. Fallback defaults if env vars are empty
-# Default to 'garuda-db' which matches the container_name in docker-compose.yml
-DB_HOSTNAME=${DB_HOSTNAME:-"garuda-db"}
+# Default to 'db' which is the service name in docker-compose.yml
+DB_HOSTNAME=${DB_HOSTNAME:-"db"}
 DB_USERNAME=${DB_USERNAME:-"garuda_user"}
 DB_PASSWORD=${DB_PASSWORD:-"garuda_password"}
 DB_DATABASE=${DB_DATABASE:-"garuda_db"}
