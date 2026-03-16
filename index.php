@@ -149,25 +149,25 @@ if (!isset($view_folder[0]) && is_dir(APPPATH . 'views' . DIRECTORY_SEPARATOR)) 
 define('VIEWPATH', $view_folder . DIRECTORY_SEPARATOR);
 //require_once BASEPATH . 'core/CodeIgniter.php';
 
-// Basic Installer Check
-$db_file = APPPATH . 'config/database.php';
-$database = '';
+// Final Robust Installer Check
+$db_file = FCPATH . 'application/config/database.php';
+$is_installed = false;
 
 if (file_exists($db_file)) {
     $content = @file_get_contents($db_file);
     if ($content) {
-        // Cek apakah database sudah diisi (bukan placeholder %DATABASE%)
-        if (preg_match("/'database'\s*=>\s*'([^%][^']*)'/", $content, $matches)) {
-            $database = $matches[1];
+        // Cari nama database (mendukung kutip ' maupun ")
+        // Cek juga bukan placeholder %DATABASE%
+        if (preg_match("/['\"]database['\"]\s*=>\s*['\"]([^% \n\r\t][^'\"]*)['\"]/i", $content, $matches)) {
+            $is_installed = true;
         }
     }
 }
 
-// Jika database masih kosong atau masih berupa placeholder, lempar ke installer
-if ($database == '' || $database == '%DATABASE%') {
+// Lewat ke Installer jika belum ada config, atau izinkan User memaksa lewat via URL
+if (isset($_GET['force_app']) || $is_installed) {
+    require_once BASEPATH . 'core/CodeIgniter.php';
+} else {
     header("Location: installer");
     exit;
-} else {
-    // Jika ada isinya, Load CodeIgniter
-    require_once BASEPATH . 'core/CodeIgniter.php';
 }
