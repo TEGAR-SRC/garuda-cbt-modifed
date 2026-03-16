@@ -170,15 +170,11 @@ if (file_exists($db_file_fix) && !is_writable($db_file_fix)) {
 $db_file = dirname(__FILE__) . '/application/config/database.php';
 $is_installed = false;
 
-// DOCKER HARDCODE BYPASS
-$is_installed = true;
-
-if ($is_installed) {
-    // Normal app flow
-} elseif (file_exists($db_file)) {
+if (file_exists($db_file)) {
     $content = @file_get_contents($db_file);
     if ($content) {
         // Cari hostname dan nama database (mendukung kutip ' maupun ")
+        // Cek apakah tidak mengandung placeholder %
         $has_host = preg_match("/['\"]hostname['\"]\s*=>\s*['\"]([^% \n\r\t][^'\"]*)['\"]/i", $content);
         $has_db = preg_match("/['\"]database['\"]\s*=>\s*['\"]([^% \n\r\t][^'\"]*)['\"]/i", $content);
         
@@ -186,6 +182,11 @@ if ($is_installed) {
             $is_installed = true;
         }
     }
+}
+
+// Support HTTPS behind proxy
+if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
+    $_SERVER['HTTPS'] = 'on';
 }
 
 // Lewat ke Installer jika belum ada config, atau izinkan User memaksa lewat via URL

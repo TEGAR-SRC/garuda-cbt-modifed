@@ -9,7 +9,10 @@ date_default_timezone_set('Asia/Jakarta');
 // $config['base_url'] = "http://".$_SERVER['HTTP_HOST'];
 // $config['base_url'] .= preg_replace('@/+$@','',dirname($_SERVER['SCRIPT_NAME'])).'/';
 
-$scheme = (isset($_SERVER["HTTPS"]) && @$_SERVER["HTTPS"] == "on") ? "https" : "http";
+$scheme = (
+    (isset($_SERVER["HTTPS"]) && @$_SERVER["HTTPS"] == "on") ||
+    (isset($_SERVER["HTTP_X_FORWARDED_PROTO"]) && $_SERVER["HTTP_X_FORWARDED_PROTO"] == "https")
+) ? "https" : "http";
 $config['base_url'] = "$scheme://".$_SERVER['HTTP_HOST'];
 $config['base_url'] .= preg_replace('@/+$@','',dirname($_SERVER['SCRIPT_NAME'])).'/';
 
