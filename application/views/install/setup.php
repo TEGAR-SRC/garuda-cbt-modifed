@@ -50,6 +50,9 @@
                 </div>
             </div>
         </div>
+        <div class="text-center text-white-50 mt-4">
+            <small>Modified by Tegar</small>
+        </div>
         <div class="alert alert-default-info align-content-center mt-4" role="alert"
              style="background-color: rgba(255,255,255,.7);">
             <i><b>A. Update Aplikasi</b></i>
@@ -105,6 +108,9 @@
                     Refresh halaman ini
                 </li>
             </ol>
+        </div>
+        <div class="text-center text-white-50 mt-3 pb-3">
+            <small>Modified by Tegar</small>
         </div>
     </div>
 </section>

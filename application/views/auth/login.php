@@ -69,6 +69,9 @@
             </div>
         </div>
     </div>
+    <div class="text-center text-white-50 mt-4">
+        <small>Modified by Tegar</small>
+    </div>
 </div>
 
 <script src="<?= base_url() ?>/assets/app/js/jquery.backstretch.js"></script>

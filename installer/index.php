@@ -131,6 +131,9 @@ $base_url = str_replace('installer/', '', $base_url);
                 </li>
             </ol>
         </div>
+        <div class="text-center text-white-50 mt-4">
+            <small>Modified by Tegar</small>
+        </div>
     </div>
 </section>
 <section class="gradient">
@@ -224,5 +227,8 @@ $base_url = str_replace('installer/', '', $base_url);
 
 <script src="<?= $base_url ?>assets/plugins/sweetalert2/sweetalert2.min.js"></script>
 
+    <div class="text-center text-white-50 mt-3 pb-3">
+        <small>Modified by Tegar</small>
+    </div>
 </body>
 </html>
