@@ -27,8 +27,8 @@ Kami selaku pengembang aplikasi ini tidak bertanggung-jawab:
 - jika ada yang mengharuskan membayar untuk mendapatkan aplikasi ini,
 - adanya masalah dari aplikasi yang sudah dimodif atau dirubah fiturnya oleh pihak lain.
 ______________
-- [HOME](https://garudacbt.github.io/cbt)
-- [TUTORIAL INSTALL](https://github.com/garudacbt/cbt/wiki)
+- [HOME](https://github.com/TEGAR-SRC/garuda-cbt-modifed)
+- [TUTORIAL INSTALL](https://github.com/TEGAR-SRC/garuda-cbt-modifed/wiki)
 
 ____
 ## Download
@@ -42,7 +42,7 @@ https://github.com/origrata/garudacbt-vdi
 ## Install
 * Download Aplikasi dari menu **Code => Download ZIP**
 * Extract di folder **htdocs** jika menggunakan XAMPP, atau folder **www** jika mengonakan Laragon
-* Lengkapnya sialhkan ke [TUTORIAL INSTALL](https://github.com/garudacbt/cbt/wiki)
+* Lengkapnya sialhkan ke [TUTORIAL INSTALL](https://github.com/TEGAR-SRC/garuda-cbt-modifed/wiki)
 ----
 ## Update
 * Download Aplikasi dari menu **Code => Download ZIP**

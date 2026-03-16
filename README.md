@@ -1,187 +1,87 @@
-# GarudaCBT
-## Last version: 1.5.3  (FIXED)
-____
-#### LAPORAN BUG SILAKAN KUNJUNGI GROUP TELEGRAM [DISINI](http://t.me/garudacbt)
-____
-Versi default: 1.5.3 BETA, untuk download v.1.5.2. [ada disini](https://github.com/garudacbt/cbt/tree/1.5.2-build-2024-05-17)
-____
+# 🦅 GarudaCBT (Modified Version)
 
-### CHANGELOG:
-#### Added
-- Support PHP 7.4 ~ 8.3
-- Login CBT
-- Update foto siswa perkelas
-- Auto logout admin setelah ganti password
-- Import Guru dengan foto
-- Editor Header jawaban essai di ujian siswa
-- Equation LaTex
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![PHP Version](https://img.shields.io/badge/PHP-7.4%20|%208.0%20|%208.3-blue.svg)](https://www.php.net/)
 
-#### Changed
-- Font Arabic Calibri
-- Remove vendor folder
+**GarudaCBT** adalah sistem Manajemen Ujian Berbasis Komputer (CBT) dan E-Learning modern yang dirancang khusus untuk institusi pendidikan di Indonesia. Versi modifikasi ini membawa berbagai perbaikan bug dan peningkatan performa untuk pengalaman yang lebih stabil.
 
-#### Fixed
-- Zoom in/out soal siswa
-- Koreksi Ujian
-- Rekap ujian
-- Pengawas undefined
-- Jawaban isian singkat dianggap salah
-- Jawaban soal menjodohkan dianggap belum menjawab
-- Hasil export nilai Excel header tabel tidak pas ketika tidak ada soal PG
-- Nilai siswa ketika diulang
-- Tanda petik di header Kartu Ujian, Daftar Kehadiran dan Berita Acara
-- Nilai harian (eLearning)
-- Edit Materi (eLearning)
-- Some minor bugs
+---
 
-___________
+## 🚀 Fitur Utama
 
-## NOTE:
-Aplikasi ini tidak diperjual belikan alias gratis 100% dengan lisensi MIT yang artinya bebas untuk memodifikasi dengan syarat tetap mencantumkan sumber asal.
+### 1. 📊 Data Master
+*   **Manajemen Sekolah:** Tahun Pelajaran, Jurusan, Kelas/Rombel.
+*   **Manajemen User:** Siswa, Guru, dan Administrator dengan kontrol akses yang ketat.
+*   **Mata Pelajaran:** Pengaturan Mapel dan Ekstrakurikuler yang fleksibel.
 
-Kami selaku pengembang aplikasi ini tidak bertanggung-jawab:
-- jika ada yang mengharuskan membayar untuk mendapatkan aplikasi ini,
-- adanya masalah dari aplikasi yang sudah dimodif atau dirubah fiturnya oleh pihak lain.
-______________
-- [HOME](https://garudacbt.github.io/cbt)
-- [TUTORIAL INSTALL](https://github.com/garudacbt/cbt/wiki)
+### 2. 📝 E-Learning & Tugas
+*   **Materi Digital:** Berbagi materi dalam berbagai format (teks/file).
+*   **Manajemen Tugas:** Memberikan tugas secara online kepada siswa.
+*   **Jadwal KBM:** Pengaturan jadwal pelajaran harian yang terintegrasi.
+*   **Presensi:** Kehadiran siswa otomatis/manual per mata pelajaran.
 
-____
-## Download
-Harap download aplikasi dari tombol [<> Code] -> Download zip
+### 3. 🎯 Sistem Ujian (CBT)
+*   **Variasi Soal:** Mendukung Pilihan Ganda (PG), PG Kompleks, Menjodohkan, Isian Singkat, dan Essai.
+*   **Keamanan Tinggi:** 
+    *   Pengacakan soal dan opsi jawaban per siswa.
+    *   Deteksi pindah tab (Anti-Cheat).
+    *   Sistem Token dinamis.
+*   **Analisis Soal:** Laporan mendalam mengenai tingkat kesulitan dan validitas soal.
 
------
-## VIRTUAL BOX (VHD):
-https://github.com/origrata/garudacbt-vdi
+### 4. 📒 Rapor & Administrasi
+*   **Olah Nilai:** Perhitungan nilai otomatis berdasarkan bobot.
+*   **Buku Induk:** Cetak buku induk siswa langsung dari sistem.
+*   **Rapor PTS/PAS:** Digenerate secara otomatis sesuai kurikulum.
 
-----
-## Install
-* Download Aplikasi dari menu **Code => Download ZIP**
-* Extract di folder **htdocs** jika menggunakan XAMPP, atau folder **www** jika mengonakan Laragon
-* Lengkapnya sialhkan ke [TUTORIAL INSTALL](https://github.com/garudacbt/cbt/wiki)
-----
-## Update
-* Download Aplikasi dari menu **Code => Download ZIP**
-* Extract dan replace semua code di folder aplikasi
-* sesuaikan nama database yang digunakan
-* backup database untuk berjaga-jaga
-* jalankan menu **update** di menu DATABASE => UPDATE
-______
-### MENU FITUR
-1. DATA MASTER
-   * Beranda
-   * Data Umum
-      * Tahun Pelajaran
-      * Jurusan
-      * Mata Pelajaran
-      * Ekstrakurikuler
-      * Siswa
-      * Kelas / Rombel
-      * Guru
-   * Data E-Learning
-      * Jadwal Pelajaran
-      * Materi
-      * Tugas
-      * Jadwal Materi/Tugas
-   * Data Ujian
-      * Jenis Ujian
-      * Sesi
-      * Ruang
-      * Atur Ruang dan Sesi
-      * Atur Nomor Peserta
-      * Bank Soal
-      * Jadwal
-      * Alokasi Waktu
-      * Token
-   * Pengumuman
+---
 
-2. PELAKSANAAN
-   * Hasil E-Learning
-      * Nilai Harian
-      * Kehadiran Harian
-      * Kehadiran Bulanan
-      * Rekap Nilai
-   * Pelaksanaan Ujian
-      * Cetak
-      * Status Siswa
-      * Hasil Ujian
-      * Analisis Soal
-      * Rekap Nilai Ujian
+## 🛠️ Persyaratan Sistem
+- **Server:** Apache atau Nginx
+- **PHP:** v7.4 s/d v8.3 (Teruji Stabil)
+- **Database:** MySQL / MariaDB
+- **Browser:** Google Chrome (Direkomendasikan)
 
-3. RAPOR
-   * Setting Rapor
-   * Kumpulan Nilai Rapor
-   * Buku Induk
-   * Alumni
+---
 
-4. PENGATURAN
-   * Profile Sekolah
-   * User Management
-      * Administrator
-      * Guru
-      * Siswa
-   * Database
-      * Backup/Restore
-      * Update
+## 📦 Instalasi
+1.  **Download:** Ambil direktori project ini dan ekstrak ke folder `htdocs` (XAMPP) atau `www` (Laragon).
+2.  **Database:** Buat database baru di MySQL/phpMyAdmin.
+3.  **Konfigurasi:** 
+    *   Ubah file `application/config/database.php` dan sesuaikan dengan username & password MySQL Anda.
+4.  **Akses:** Buka browser dan arahkan ke alamat instalasi (contoh: `http://localhost/garuda-cbt`).
+5.  **Setup:** Ikuti langkah yang muncul di layar untuk proses instalasi awal.
 
-6. LOGOUT
+*Tutorial lengkap dapat dilihat di [Official Wiki](https://github.com/TEGAR-SRC/garuda-cbt-modifed/wiki).*
 
-___________
-## version: 1.5.2
-___________
-#### Added
-- Soal gambar menjodohkan
-- Soal gambar tanpa text
-- Search/paging rekap nilai
-- Search kelas/rombel
-- Search status ujian
-- NIS list siswa di menu edit kelas
-- Detect new tab ketika siswa sedang ujian
+---
 
-#### Fixed
-- Rekap nilai 0
-- Detail soal
-- Typo
-- Edit soal gambar hang
-- Gambar soal di menu koreksi
-- Hapus jadwal ujian
-- Hapus siswa dari rombel
-- Download soal ujian KP
-- Edit soal ketika ujian berlangsung
-- Mapel SD/MI
-- Cetak rapor PTS beda predikat
-- Kehadiran rapor di DKN
-- Rapor prestasi berbeda dengan arsip
-- Rapor kesehatan
-- Ttd kepsek rapor akhir
-- Mapel rapor berbeda dengan arsip
+## 🔄 Cara Update
+1.  Backup source code dan database lama Anda.
+2.  Ganti folder code lama dengan code terbaru dari repository ini.
+3.  Sesuaikan kembali konfigurasi database di `application/config/database.php`.
+4.  Masuk ke menu **PENGATURAN -> Database -> Update** untuk memperbarui struktur tabel.
 
-- Struktur organisasi #admin
-- Reset waktu ujian siswa #pengawas
-- Search daftar siswa ada siswa lain kelas #wali kelas
-- Tugas/Materi guru membaca kelas lain #guru
-- Semua guru dianggap pengawas #pengawas
-- Soal menjodohkan dianggap terjawab #siswa
+---
 
-______
-MIT License
+## 📝 Changelog (v1.5.3 FIXED)
+- ✅ **Optimasi PHP:** Dukungan penuh untuk PHP 8.x.
+- ✅ **Fitur Foto:** Import Guru dan update foto siswa per-kelas masal.
+- ✅ **Keamanan:** Perbaikan logout admin otomatis setelah ganti password.
+- ✅ **Ujian:** Perbaikan bug zoom soal, rekap nilai 0, dan koreksi isian singkat.
+- ✅ **Template:** Header jawaban essai di sisi siswa kini bisa di-custom.
+- ✅ **Equation:** Dukungan LaTeX untuk rumus matematika yang lebih rapi.
 
-Copyright (c) 2020 GarudaCBT
+---
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+## 📢 Kontribusi & Dukungan
+Jika Anda menemukan bug atau ingin berdiskusi, silakan bergabung dengan komunitas kami:
+*   [Group Telegram GarudaCBT](http://t.me/garudacbt)
+*   [Dokumentasi Online](https://github.com/TEGAR-SRC/garuda-cbt-modifed)
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+---
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+## 📜 Lisensi
+Aplikasi ini bersifat **Open Source** di bawah lisensi **MIT**. Anda bebas menggunakan dan memodifikasi selama mencantumkan sumber asli. Kami tidak bertanggung jawab atas penyalahgunaan atau modifikasi pihak ketiga.
+
+---
+*Dibuat dengan ❤️ untuk pendidikan Indonesia yang lebih baik.*
