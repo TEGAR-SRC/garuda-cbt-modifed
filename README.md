@@ -1,9 +1,14 @@
 # 🦅 GarudaCBT (Modified Version)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![PHP Version](https://img.shields.io/badge/PHP-7.4%20|%208.0%20|%208.3-blue.svg)](https://www.php.net/)
+[![PHP Version](https://img.shields.io/badge/PHP-8.1%20|%208.2%20|%208.3-blue.svg)](https://www.php.net/)
+[![Docker Support](https://img.shields.io/badge/Docker-Ready-blue.svg)](https://www.docker.com/)
 
-**GarudaCBT** adalah sistem Manajemen Ujian Berbasis Komputer (CBT) dan E-Learning modern yang dirancang khusus untuk institusi pendidikan di Indonesia. Versi modifikasi ini membawa berbagai perbaikan bug dan peningkatan performa untuk pengalaman yang lebih stabil.
+**GarudaCBT** adalah sistem Manajemen Ujian Berbasis Komputer (CBT) dan E-Learning modern yang dirancang khusus untuk institusi pendidikan di Indonesia. 
+
+> [!NOTE]
+> **Versi Modifikasi oleh Tegar Arrahman**
+> Membawa berbagai perbaikan bug, dukungan Docker penuh, optimasi HTTPS (Proxy-Aware), dan peningkatan performa untuk pengalaman yang lebih stabil.
 
 ---
 
@@ -35,53 +40,61 @@
 
 ---
 
-## 🛠️ Persyaratan Sistem
+## 🐳 Deployment via Docker (Recommended)
+
+Versi ini mendukung deployment cepat menggunakan Docker. Sangat cocok untuk dideploy di VPS menggunakan **Dokploy**, Coolify, atau Docker Compose manual.
+
+### Environment Variables
+Aplikasi akan secara otomatis membaca konfigurasi database dari environment variables berikut:
+
+| Key | Default | Deskripsi |
+| --- | --- | --- |
+| `DB_HOSTNAME` | `db` | Hostname database (Service name) |
+| `DB_USERNAME` | `garuda_user` | Username database |
+| `DB_PASSWORD` | `garuda_password`| Password database |
+| `DB_DATABASE` | `garuda_db` | Nama database |
+
+### Cara Deploy (Docker Compose)
+1.  Siapkan Docker & Docker Compose.
+2.  Jalankan perintah:
+    ```bash
+    docker-compose up -d
+    ```
+3.  Akses aplikasi di `http://localhost:8080`.
+
+### Tips Dokploy (HTTPS Fix)
+Jika dideploy di belakang Reverse Proxy (Dokploy/Cloudflare), aplikasi sudah dilengkapi fitur **Proxy-Aware HTTPS**. Tidak akan ada lagi error *Mixed Content* karena base_url akan menyesuaikan secara otomatis.
+
+---
+
+## 🛠️ Persyaratan Sistem (Manual)
 - **Server:** Apache atau Nginx
-- **PHP:** v7.4 s/d v8.3 (Teruji Stabil)
-- **Database:** MySQL / MariaDB
+- **PHP:** v8.1 s/d v8.3 (Teruji Stabil)
+- **Database:** MySQL 8.0 / MariaDB
 - **Browser:** Google Chrome (Direkomendasikan)
 
 ---
 
-## 📦 Instalasi
-1.  **Download:** Ambil direktori project ini dan ekstrak ke folder `htdocs` (XAMPP) atau `www` (Laragon).
+## 📦 Instalasi Manual
+1.  **Download:** Ambil direktori project ini dan ekstrak ke folder web server Anda.
 2.  **Database:** Buat database baru di MySQL/phpMyAdmin.
 3.  **Konfigurasi:** 
-    *   Ubah file `application/config/database.php` dan sesuaikan dengan username & password MySQL Anda.
-4.  **Akses:** Buka browser dan arahkan ke alamat instalasi (contoh: `http://localhost/garuda-cbt`).
-5.  **Setup:** Ikuti langkah yang muncul di layar untuk proses instalasi awal.
-
-*Tutorial lengkap dapat dilihat di [Official Wiki](https://github.com/TEGAR-SRC/garuda-cbt-modifed/wiki).*
+    *   Ubah file `application/config/database.php` dan sesuaikan dengan credentials Anda.
+4.  **Akses:** Buka browser dan ikuti langkah instalasi di layar.
 
 ---
 
-## 🔄 Cara Update
-1.  Backup source code dan database lama Anda.
-2.  Ganti folder code lama dengan code terbaru dari repository ini.
-3.  Sesuaikan kembali konfigurasi database di `application/config/database.php`.
-4.  Masuk ke menu **PENGATURAN -> Database -> Update** untuk memperbarui struktur tabel.
-
----
-
-## 📝 Changelog (v1.5.3 FIXED)
-- ✅ **Optimasi PHP:** Dukungan penuh untuk PHP 8.x.
-- ✅ **Fitur Foto:** Import Guru dan update foto siswa per-kelas masal.
-- ✅ **Keamanan:** Perbaikan logout admin otomatis setelah ganti password.
-- ✅ **Ujian:** Perbaikan bug zoom soal, rekap nilai 0, dan koreksi isian singkat.
-- ✅ **Template:** Header jawaban essai di sisi siswa kini bisa di-custom.
-- ✅ **Equation:** Dukungan LaTeX untuk rumus matematika yang lebih rapi.
-
----
-
-## 📢 Kontribusi & Dukungan
-Jika Anda menemukan bug atau ingin berdiskusi, silakan bergabung dengan komunitas kami:
-*   [Group Telegram GarudaCBT](http://t.me/garudacbt)
-*   [Dokumentasi Online](https://github.com/TEGAR-SRC/garuda-cbt-modifed)
+## 📝 Changelog (Modified by Tegar)
+- ✅ **PHP 8.1+ Support:** Perbaikan berbagai fungsi deprecated di versi PHP terbaru.
+- ✅ **Docker Entrypoint:** Otomatisasi setup permissions dan konfigurasi database.
+- ✅ **Proxy-Aware HTTPS:** Mendukung `X-Forwarded-Proto` untuk deployment Cloudflare/Dokploy.
+- ✅ **Session Fix:** Perbaikan error folder session pada environment containerized.
+- ✅ **Installer Bypass:** Deteksi otomatis status instalasi pada Docker environment.
 
 ---
 
 ## 📜 Lisensi
-Aplikasi ini bersifat **Open Source** di bawah lisensi **MIT**. Anda bebas menggunakan dan memodifikasi selama mencantumkan sumber asli. Kami tidak bertanggung jawab atas penyalahgunaan atau modifikasi pihak ketiga.
+Aplikasi ini bersifat **Open Source** di bawah lisensi **MIT**. Anda bebas menggunakan dan memodifikasi selama mencantumkan sumber asli.
 
 ---
-*Dibuat dengan ❤️ untuk pendidikan Indonesia yang lebih baik.*
+*Dibuat dengan ❤️ oleh Tegar Arrahman untuk pendidikan Indonesia yang lebih baik.*
