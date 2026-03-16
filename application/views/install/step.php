@@ -300,6 +300,9 @@
                 </div>
             </div>
         </div>
+        <div class="text-center text-white-50 mt-3 pb-3">
+            <small>Modified by Tegar</small>
+        </div>
     </div>
 </section>
 <section class="gradient">
