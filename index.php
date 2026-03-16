@@ -150,27 +150,24 @@ define('VIEWPATH', $view_folder . DIRECTORY_SEPARATOR);
 //require_once BASEPATH . 'core/CodeIgniter.php';
 
 // Basic Installer Check
-$db_file = 'application/config/database.php';
+$db_file = APPPATH . 'config/database.php';
 $database = '';
 
 if (file_exists($db_file)) {
-    // Try standard include first
-    @include $db_file;
-    $database = isset($db['default']['database']) ? $db['default']['database'] : '';
-    
-    // If include failed or variable empty, try regex as fallback
-    if ($database == '') {
-        $content = @file_get_contents($db_file);
-        if ($content && preg_match("/'database'\s*=>\s*'([^']*)'/", $content, $matches)) {
+    $content = @file_get_contents($db_file);
+    if ($content) {
+        // Cek apakah database sudah diisi (bukan placeholder %DATABASE%)
+        if (preg_match("/'database'\s*=>\s*'([^%][^']*)'/", $content, $matches)) {
             $database = $matches[1];
         }
     }
 }
 
+// Jika database masih kosong atau masih berupa placeholder, lempar ke installer
 if ($database == '' || $database == '%DATABASE%') {
     header("Location: installer");
     exit;
 } else {
-    // If database is configured, load CodeIgniter.
+    // Jika ada isinya, Load CodeIgniter
     require_once BASEPATH . 'core/CodeIgniter.php';
 }
