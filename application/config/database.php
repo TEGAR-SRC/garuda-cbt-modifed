@@ -4,13 +4,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $query_builder = TRUE;
 
-// HARDCODED FOR DOCKER
+// HARDCODE DATABASE LANGSUNG KE IP DOKPLOY
+// Karena sanak pakai mode "Application", host 'db' tidak akan dikenal.
+// Sanak WAJIB membuat database MySQL di tab "Databases" Dokploy,
+// lalu ganti 'localhost' di bawah dengan "Internal Host" dari Dokploy.
+
 $db['default'] = array(
     'dsn'	=> '',
-    'hostname' => 'db',
-    'username' => 'garuda_user',
-    'password' => 'garuda_password',
-    'database' => 'garuda_db',
+    'hostname' => 'localhost', // GANTI INI DENGAN INTERNAL HOST DARI DOKPLOY
+    'username' => 'root',      // GANTI DENGAN USER DB DOKPLOY
+    'password' => '',          // GANTI DENGAN PASS DB DOKPLOY
+    'database' => 'garuda_db', // GANTI DENGAN NAMA DB DOKPLOY
     'dbdriver' => 'mysqli',
     'dbprefix' => '',
     'pconnect' => FALSE,
