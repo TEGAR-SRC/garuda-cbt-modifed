@@ -9,8 +9,8 @@ DB_CONFIG="/var/www/html/application/config/database.php"
 # 1. Fallback defaults if env vars are empty
 # Siapa tahu sanak lupa isi di Dokploy, kita kasih default dari compose
 # 1. Fallback defaults if env vars are empty
-# Default to 'db' which is the service name in docker-compose.yml
-DB_HOSTNAME=${DB_HOSTNAME:-"db"}
+# Default to 'garuda-db' which matches the container_name in docker-compose.yml
+DB_HOSTNAME=${DB_HOSTNAME:-"garuda-db"}
 DB_USERNAME=${DB_USERNAME:-"garuda_user"}
 DB_PASSWORD=${DB_PASSWORD:-"garuda_password"}
 DB_DATABASE=${DB_DATABASE:-"garuda_db"}
@@ -18,6 +18,14 @@ DB_DATABASE=${DB_DATABASE:-"garuda_db"}
 echo "Using Database Host: $DB_HOSTNAME"
 echo "Using Database Name: $DB_DATABASE"
 
+# Connectivity check (Optional but helpful for logs)
+if command -v getent > /dev/null; then
+    if getent hosts $DB_HOSTNAME > /dev/null; then
+        echo "✅ Database host '$DB_HOSTNAME' resolved successfully."
+    else
+        echo "❌ Database host '$DB_HOSTNAME' could not be resolved. Check your Docker network."
+    fi
+fi
 # 2. Hard-replace placeholders in database.php
 # Use a temporary file to avoid issues if sed fails
 sed -e "s/%HOSTNAME%/$DB_HOSTNAME/g" \
