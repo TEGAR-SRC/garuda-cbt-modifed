@@ -16,6 +16,9 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd mysqli pdo_mysql zip intl mbstring xml bcmath calendar
 
+# Fix PHP Environment Variables visibility
+RUN echo 'variables_order = "EGPCS"' >> /usr/local/etc/php/conf.d/docker-vars.ini
+
 # Enable Apache modules
 RUN a2enmod rewrite
 

@@ -171,10 +171,10 @@ $db_file = dirname(__FILE__) . '/application/config/database.php';
 $is_installed = false;
 
 // DOCKER BYPASS: Jika ada env var, langsung jalan tanpa cek file
-$db_host = getenv('DB_HOSTNAME') ?: ($_ENV['DB_HOSTNAME'] ?? ($_SERVER['DB_HOSTNAME'] ?? null));
-$db_name = getenv('DB_DATABASE') ?: ($_ENV['DB_DATABASE'] ?? ($_SERVER['DB_DATABASE'] ?? null));
+$db_host_env = getenv('DB_HOSTNAME') ?: ($_ENV['DB_HOSTNAME'] ?? ($_SERVER['DB_HOSTNAME'] ?? null));
+$db_name_env = getenv('DB_DATABASE') ?: ($_ENV['DB_DATABASE'] ?? ($_SERVER['DB_DATABASE'] ?? null));
 
-if ($db_host && $db_name || file_exists('/.dockerenv')) {
+if ($db_host_env && $db_name_env || file_exists('/.dockerenv') || file_exists('/installer.lock')) {
     $is_installed = true;
 } elseif (file_exists($db_file)) {
     $content = @file_get_contents($db_file);
@@ -190,10 +190,19 @@ if ($db_host && $db_name || file_exists('/.dockerenv')) {
 }
 
 // Lewat ke Installer jika belum ada config, atau izinkan User memaksa lewat via URL
-if (isset($_GET['force_app']) || $is_installed) {
+if (isset($_GET['force_app']) || $is_installed === true) {
     if (!defined('BASEPATH')) define('BASEPATH', $system_path);
+    // Tambahan: Cegah installer dipanggil lagi di dalam CI
+    define('SKIP_INSTALLER', TRUE);
     require_once BASEPATH . 'core/CodeIgniter.php';
 } else {
-    header("Location: installer");
-    exit;
+    // Jika tidak di root, jangan redirect (mungkin lagi di subfolder)
+    if ($_SERVER['QUERY_STRING'] == '' && $_SERVER['REQUEST_URI'] == '/') {
+        header("Location: installer");
+        exit;
+    } else {
+        // Fallback jika bukan di root tapi belum install
+        if (!defined('BASEPATH')) define('BASEPATH', $system_path);
+        require_once BASEPATH . 'core/CodeIgniter.php';
+    }
 }
