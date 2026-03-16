@@ -38,6 +38,11 @@ RUN chown -R www-data:www-data /var/www/html \
 # Copy custom database config (Optional, if we want to bypass installer)
 # We can use a script to replace placeholders in application/config/database.php
 
+# Copy entrypoint script
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
 EXPOSE 80
 
-CMD ["apache2-foreground"]
+ENTRYPOINT ["docker-entrypoint.sh"]
+

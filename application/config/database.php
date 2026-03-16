@@ -6,10 +6,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
     'dsn'	=> '',
-    'hostname' => getenv('DB_HOSTNAME') ?: ($_ENV['DB_HOSTNAME'] ?? ($_SERVER['DB_HOSTNAME'] ?? '%HOSTNAME%')),
-    'username' => getenv('DB_USERNAME') ?: ($_ENV['DB_USERNAME'] ?? ($_SERVER['DB_USERNAME'] ?? '%USERNAME%')),
-    'password' => getenv('DB_PASSWORD') ?: ($_ENV['DB_PASSWORD'] ?? ($_SERVER['DB_PASSWORD'] ?? '%PASSWORD%')),
-    'database' => getenv('DB_DATABASE') ?: ($_ENV['DB_DATABASE'] ?? ($_SERVER['DB_DATABASE'] ?? '%DATABASE%')),
+    'hostname' => '%HOSTNAME%',
+    'username' => '%USERNAME%',
+    'password' => '%PASSWORD%',
+    'database' => '%DATABASE%',
     'dbdriver' => 'mysqli',
     'dbprefix' => '',
     'pconnect' => FALSE,
