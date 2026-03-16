@@ -8,7 +8,7 @@ class Database {
             return "Koneksi Gagal: " . $mysqli->connect_error;
         }
 
-        if (!$mysqli->query("CREATE DATABASE IF NOT EXISTS " . $data['database'])) {
+        if (!$mysqli->query("CREATE DATABASE IF NOT EXISTS `" . $data['database'] . "`")) {
             $error = $mysqli->error;
             $mysqli->close();
             return "Gagal membuat database: " . $error;
