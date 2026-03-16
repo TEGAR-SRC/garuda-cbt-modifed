@@ -9,6 +9,7 @@ $db_file = '../application/config/database.php';
 $is_configured = false;
 $existing_db = '';
 if (file_exists($db_file)) {
+    if (!defined('BASEPATH')) define('BASEPATH', '../');
     include $db_file;
     if (isset($db['default']['database']) && $db['default']['database'] != '') {
         $is_configured = true;
