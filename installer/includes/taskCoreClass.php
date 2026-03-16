@@ -21,23 +21,25 @@ class Core {
         $template_path = '../assets/app/db/database.php';
         $output_path = '../application/config/database.php';
 
-        $database_file = file_get_contents($template_path);
+        $database_file = @file_get_contents($template_path);
+        if (!$database_file) return false;
 
         $new = str_replace("%HOSTNAME%", $data['hostname'], $database_file);
         $new = str_replace("%USERNAME%", $data['username'], $new);
         $new = str_replace("%PASSWORD%", $data['password'], $new);
         $new = str_replace("%DATABASE%", $data['database'], $new);
 
-        $handle = fopen($output_path, 'w+');
-        @chmod($output_path, 0777);
+        // Try to make file writable if it exists
+        if (file_exists($output_path)) {
+            @chmod($output_path, 0777);
+        } else {
+            // Try to make directory writable if file doesn't exist
+            @chmod(dirname($output_path), 0777);
+        }
 
-        if (is_writable(dirname($output_path))) {
-
-            if (fwrite($handle, $new)) {
-                return true;
-            } else {
-                return false;
-            }
+        if (@file_put_contents($output_path, $new)) {
+            @chmod($output_path, 0777);
+            return true;
         } else {
             return false;
         }
