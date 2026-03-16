@@ -177,7 +177,10 @@ if (file_exists($db_file)) {
         $has_host = preg_match("/['\"]hostname['\"]\s*=>\s*['\"]([^% \n\r\t][^'\"]*)['\"]/i", $content);
         $has_db = preg_match("/['\"]database['\"]\s*=>\s*['\"]([^% \n\r\t][^'\"]*)['\"]/i", $content);
         
-        if ($has_host && $has_db) {
+        // Juga cek environment variables (Docker)
+        $has_env = getenv('DB_HOSTNAME') && getenv('DB_DATABASE');
+
+        if (($has_host && $has_db) || $has_env) {
             $is_installed = true;
         }
     }

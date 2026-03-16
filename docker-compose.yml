@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: garuda-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: garuda_db
+      MYSQL_USER: garuda_user
+      MYSQL_PASSWORD: garuda_password
+      MYSQL_ROOT_PASSWORD: root_password
+    volumes:
+      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./assets/app/db/master.sql:/docker-entrypoint-initdb.d/init.sql
+      - garuda_db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "-u", "root", "-p$MYSQL_ROOT_PASSWORD"]
+      timeout: 20s
+      retries: 10
+    networks:
+      - garuda-net
+
+  web:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: garuda-web
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      - DB_HOSTNAME=db
+      - DB_USERNAME=garuda_user
+      - DB_PASSWORD=garuda_password
+      - DB_DATABASE=garuda_db
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - garuda-net
+
+volumes:
+  garuda_db_data:
+
+networks:
+  garuda-net:
+    driver: bridge
