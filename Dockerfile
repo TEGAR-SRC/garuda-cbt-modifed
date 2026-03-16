@@ -39,10 +39,11 @@ RUN chown -R www-data:www-data /var/www/html \
 # We can use a script to replace placeholders in application/config/database.php
 
 # Copy entrypoint script
-COPY docker-entrypoint.sh /usr/local/bin/
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 EXPOSE 80
 
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+
 

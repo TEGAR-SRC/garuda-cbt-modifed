@@ -172,9 +172,17 @@ $is_installed = false;
 
 // DOCKER BYPASS: Jika ada env var, langsung jalan tanpa cek file
 $db_host_env = getenv('DB_HOSTNAME') ?: ($_ENV['DB_HOSTNAME'] ?? ($_SERVER['DB_HOSTNAME'] ?? null));
+$db_user_env = getenv('DB_USERNAME') ?: ($_ENV['DB_USERNAME'] ?? ($_SERVER['DB_USERNAME'] ?? null));
+$db_pass_env = getenv('DB_PASSWORD') ?: ($_ENV['DB_PASSWORD'] ?? ($_SERVER['DB_PASSWORD'] ?? null));
 $db_name_env = getenv('DB_DATABASE') ?: ($_ENV['DB_DATABASE'] ?? ($_SERVER['DB_DATABASE'] ?? null));
 
-if ($db_host_env && $db_name_env || file_exists('/.dockerenv') || file_exists('/installer.lock')) {
+// Define global constants if env vars exist
+if ($db_host_env) define('TEMP_DB_HOST', $db_host_env);
+if ($db_user_env) define('TEMP_DB_USER', $db_user_env);
+if ($db_pass_env) define('TEMP_DB_PASS', $db_pass_env);
+if ($db_name_env) define('TEMP_DB_NAME', $db_name_env);
+
+if (($db_host_env && $db_name_env) || file_exists('/.dockerenv') || file_exists('/installer.lock')) {
     $is_installed = true;
 } elseif (file_exists($db_file)) {
     $content = @file_get_contents($db_file);
