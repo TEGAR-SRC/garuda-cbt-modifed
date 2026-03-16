@@ -161,12 +161,10 @@ $base_url = str_replace('installer/', '', $base_url);
             swal.fire({
                 title: "Checking database",
                 text: "Silahkan tunggu....",
-                button: false,
-                closeOnClickOutside: false,
-                closeOnEsc: false,
-                allowEscapeKey: false,
+                showConfirmButton: false,
                 allowOutsideClick: false,
-                onOpen: () => {
+                allowEscapeKey: false,
+                didOpen: () => {
                     swal.showLoading();
                 }
             });
@@ -181,17 +179,15 @@ $base_url = str_replace('installer/', '', $base_url);
                 data: data,
                 success: function (response) {
                     console.log(response);
-                    const isSuccess = response == '';
+                    const isSuccess = response.trim() == '';
                     swal.close();
                     swal.fire({
                         title: isSuccess ? "Sukses" : "Gagal!",
                         html: isSuccess ? "Database berhasil diinstall" : response,
                         icon: isSuccess ? "success" : "error",
-                        closeOnClickOutside: false,
-                        showCancelButton: false,
-                        closeOnEsc: false,
-                        allowEscapeKey: false,
                         allowOutsideClick: false,
+                        showCancelButton: false,
+                        allowEscapeKey: false,
                         confirmButtonColor: "#3085d6",
                         confirmButtonText: "OK"
                     }).then(result => {
