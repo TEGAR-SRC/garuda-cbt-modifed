@@ -4,17 +4,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $query_builder = TRUE;
 
-// HARDCODE DATABASE LANGSUNG KE IP DOKPLOY
-// Karena sanak pakai mode "Application", host 'db' tidak akan dikenal.
-// Sanak WAJIB membuat database MySQL di tab "Databases" Dokploy,
-// lalu ganti 'localhost' di bawah dengan "Internal Host" dari Dokploy.
+// Mendapatkan konfigurasi dari Environment Variable (Dokploy) atau Hardcoded Fallback
+$db_host = getenv('DB_HOSTNAME') ?: 'db'; // Tuju ke service 'db' di network docker
+$db_user = getenv('DB_USERNAME') ?: 'garuda_user';
+$db_pass = getenv('DB_PASSWORD') ?: 'garuda_password';
+$db_name = getenv('DB_DATABASE') ?: 'garuda_db';
 
 $db['default'] = array(
     'dsn'	=> '',
-    'hostname' => 'localhost', // GANTI INI DENGAN INTERNAL HOST DARI DOKPLOY
-    'username' => 'root',      // GANTI DENGAN USER DB DOKPLOY
-    'password' => '',          // GANTI DENGAN PASS DB DOKPLOY
-    'database' => 'garuda_db', // GANTI DENGAN NAMA DB DOKPLOY
+    'hostname' => $db_host,
+    'username' => $db_user,
+    'password' => $db_pass,
+    'database' => $db_name,
     'dbdriver' => 'mysqli',
     'dbprefix' => '',
     'pconnect' => FALSE,
