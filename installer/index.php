@@ -73,10 +73,13 @@ if (file_exists($db_file)) {
                                 <h5><i class="icon fas fa-check"></i> Database Terdeteksi!</h5>
                                 Konfigurasi database untuk <b><?= $existing_db ?></b> sudah tersedia. Sanak bisa mencoba langsung masuk ke aplikasi jika instalasi database sudah selesai sebelumnya.
                                 <div class="mt-3">
-                                    <a href="<?= $base_url ?>" class="btn btn-success btn-block">MASUK KE APLIKASI (SKIP)</a>
+                                    <a href="<?= $base_url ?>" class="btn btn-success btn-block btn-lg"><b>MASUK KE APLIKASI (SKIP)</b></a>
                                 </div>
                                 <hr>
                                 <p class="text-sm">Atau sanak bisa isi ulang form di bawah jika ingin mengganti database atau memperbaiki tabel yang rusak.</p>
+                                <div class="text-right">
+                                    <small class="text-muted">Modified by Tegar</small>
+                                </div>
                             </div>
                         <?php endif; ?>
                         <form action="#" id="create" method="post" accept-charset="utf-8">
