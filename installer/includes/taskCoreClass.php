@@ -29,18 +29,25 @@ class Core {
         $new = str_replace("%PASSWORD%", $data['password'], $new);
         $new = str_replace("%DATABASE%", $data['database'], $new);
 
-        // Try to make file writable if it exists
+        // Try to make file/dir writable using multiple methods
         if (file_exists($output_path)) {
             @chmod($output_path, 0777);
+            @shell_exec("chmod 777 " . realpath($output_path));
         } else {
-            // Try to make directory writable if file doesn't exist
             @chmod(dirname($output_path), 0777);
+            @shell_exec("chmod 777 " . realpath(dirname($output_path)));
         }
 
         if (@file_put_contents($output_path, $new)) {
             @chmod($output_path, 0777);
             return true;
         } else {
+            // Last ditch effort: try to write via shell if allowed
+            $new_escaped = escapeshellarg($new);
+            @shell_exec("echo $new_escaped > " . realpath($output_path));
+            if (file_exists($output_path) && filesize($output_path) > 0) {
+                return true;
+            }
             return false;
         }
     }
