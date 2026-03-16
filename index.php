@@ -170,17 +170,17 @@ if (file_exists($db_file_fix) && !is_writable($db_file_fix)) {
 $db_file = dirname(__FILE__) . '/application/config/database.php';
 $is_installed = false;
 
-if (file_exists($db_file)) {
+// DOCKER BYPASS: Jika ada env var, langsung jalan tanpa cek file
+if (getenv('DB_HOSTNAME') && getenv('DB_DATABASE')) {
+    $is_installed = true;
+} elseif (file_exists($db_file)) {
     $content = @file_get_contents($db_file);
     if ($content) {
         // Cari hostname dan nama database (mendukung kutip ' maupun ")
         $has_host = preg_match("/['\"]hostname['\"]\s*=>\s*['\"]([^% \n\r\t][^'\"]*)['\"]/i", $content);
         $has_db = preg_match("/['\"]database['\"]\s*=>\s*['\"]([^% \n\r\t][^'\"]*)['\"]/i", $content);
         
-        // Juga cek environment variables (Docker)
-        $has_env = getenv('DB_HOSTNAME') && getenv('DB_DATABASE');
-
-        if (($has_host && $has_db) || $has_env) {
+        if ($has_host && $has_db) {
             $is_installed = true;
         }
     }
