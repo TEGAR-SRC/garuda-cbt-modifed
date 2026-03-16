@@ -3,9 +3,10 @@
 class Database {
 
     function create_database($data) {
-        $mysqli = new mysqli($data['hostname'], $data['username'], $data['password'], '');
+        mysqli_report(MYSQLI_REPORT_OFF);
+        $mysqli = @new mysqli($data['hostname'], $data['username'], $data['password'], '');
         if ($mysqli->connect_errno) {
-            return "Koneksi Gagal: " . $mysqli->connect_error;
+            return "Koneksi Gagal: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
         }
 
         if (!$mysqli->query("CREATE DATABASE IF NOT EXISTS `" . $data['database'] . "`")) {
@@ -20,9 +21,10 @@ class Database {
     }
 
     function create_tables($data) {
-        $mysqli = new mysqli($data['hostname'], $data['username'], $data['password'], $data['database']);
+        mysqli_report(MYSQLI_REPORT_OFF);
+        $mysqli = @new mysqli($data['hostname'], $data['username'], $data['password'], $data['database']);
         if ($mysqli->connect_errno) {
-            return "Koneksi Database Gagal: " . $mysqli->connect_error;
+            return "Koneksi Database Gagal: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
         }
 
         $query = $mysqli->query("SHOW TABLES LIKE 'users'");
