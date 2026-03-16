@@ -29,7 +29,11 @@ if [ ! -z "$DB_DATABASE" ]; then
     sed -i "s/%DATABASE%/$DB_DATABASE/g" $DB_CONFIG
 fi
 
-# 3. Fix Permissions
+# 3. Create Session directory if not exists
+mkdir -p /var/www/html/application/cache/sessions
+chmod -R 777 /var/www/html/application/cache/sessions
+
+# 4. Fix Permissions
 echo "Setting permissions..."
 chown -R www-data:www-data /var/www/html
 chmod -R 777 /var/www/html/application/config
