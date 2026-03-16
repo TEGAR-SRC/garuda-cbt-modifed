@@ -149,6 +149,23 @@ if (!isset($view_folder[0]) && is_dir(APPPATH . 'views' . DIRECTORY_SEPARATOR)) 
 define('VIEWPATH', $view_folder . DIRECTORY_SEPARATOR);
 //require_once BASEPATH . 'core/CodeIgniter.php';
 
+// Auto-Permission Fix for Docker/Container environments
+$writable_dirs = [
+    APPPATH . 'config',
+    APPPATH . 'logs',
+    'uploads',
+    'backups'
+];
+foreach ($writable_dirs as $dir) {
+    if (file_exists($dir) && !is_writable($dir)) {
+        @chmod($dir, 0777);
+    }
+}
+$db_file_fix = APPPATH . 'config/database.php';
+if (file_exists($db_file_fix) && !is_writable($db_file_fix)) {
+    @chmod($db_file_fix, 0777);
+}
+
 // Final Robust Installer Check
 $db_file = dirname(__FILE__) . '/application/config/database.php';
 $is_installed = false;

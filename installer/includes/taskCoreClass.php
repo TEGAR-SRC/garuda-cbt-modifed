@@ -29,30 +29,26 @@ class Core {
         $new = str_replace("%PASSWORD%", $data['password'], $new);
         $new = str_replace("%DATABASE%", $data['database'], $new);
 
-        // Try to make file/dir writable using multiple methods
         if (file_exists($output_path)) {
-            @chmod($output_path, 0777);
-            @shell_exec("chmod 777 " . realpath($output_path));
-        } else {
-            @chmod(dirname($output_path), 0777);
-            @shell_exec("chmod 777 " . realpath(dirname($output_path)));
+            $existing_content = @file_get_contents($output_path);
+            // Jika isinya sudah benar (sama dengan yang mau ditulis), tidak perlu tulis ulang
+            if ($existing_content === $new) {
+                return true;
+            }
+            @unlink($output_path);
         }
 
         if (@file_put_contents($output_path, $new)) {
             @chmod($output_path, 0777);
-            // Verify if the content is correct
-            $check = @file_get_contents($output_path);
-            if ($check && strpos($check, $data['database']) !== false) {
-                return true;
-            }
+            return true;
         }
         
-        // Last ditch effort: try to write via shell if allowed
+        // Backup method: shell echo
         $new_escaped = escapeshellarg($new);
         @shell_exec("echo $new_escaped > " . realpath($output_path));
         
         $check = @file_get_contents($output_path);
-        if ($check && strpos($check, $data['database']) !== false) {
+        if ($check && (strpos($check, $data['database']) !== false || $check === $new)) {
             @chmod($output_path, 0777);
             return true;
         }

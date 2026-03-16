@@ -26,6 +26,9 @@ if (file_exists($db_file)) {
         $existing_db = $db['default']['database'];
     }
 }
+
+$is_writable = is_writable($db_file) || is_writable(dirname($db_file));
+$permission_info = substr(sprintf('%o', fileperms($db_file)), -3);
 ?>
 
 <html lang="en">
@@ -80,6 +83,16 @@ if (file_exists($db_file)) {
                                 <div class="text-right">
                                     <small class="text-muted">Modified by Tegar</small>
                                 </div>
+                            </div>
+                        <?php endif; ?>
+
+                        <?php if (!$is_writable) : ?>
+                            <div class="alert alert-danger">
+                                <h5><i class="icon fas fa-exclamation-triangle"></i> Masalah Izin File!</h5>
+                                <p>File <code>application/config/database.php</code> tidak dapat ditulis (Izin saat ini: <b><?= $permission_info ?></b>).</p>
+                                <p class="text-sm">Silakan jalankan perintah ini di terminal server sanak agar otomatis berhasil:</p>
+                                <code class="p-2 d-block bg-dark text-white rounded mb-2">chmod -R 777 application/config application/logs uploads backups</code>
+                                <p class="text-xs mb-0">Atau minta bantuan saya untuk memperbaikinya lewat skrip otomatis.</p>
                             </div>
                         <?php endif; ?>
                         <form action="#" id="create" method="post" accept-charset="utf-8">
