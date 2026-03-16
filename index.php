@@ -149,22 +149,40 @@ if (!isset($view_folder[0]) && is_dir(APPPATH . 'views' . DIRECTORY_SEPARATOR)) 
 define('VIEWPATH', $view_folder . DIRECTORY_SEPARATOR);
 //require_once BASEPATH . 'core/CodeIgniter.php';
 
-include 'application/config/database.php';
-$database = $db['default']['database'];
+// Basic Installer Check
+if (file_exists('application/config/database.php')) {
+    include 'application/config/database.php';
+}
+
+$database = isset($db['default']['database']) ? $db['default']['database'] : '';
+
 if ($database == '') {
     header("Location: installer");
+    exit;
 } else {
     $data = $db['default'];
-    $mysqli = @new mysqli($data['hostname'], $data['username'], $data['password'], '');
-    $dbname = $data['database'];
-    if (empty (mysqli_fetch_array(mysqli_query($mysqli,"SHOW DATABASES LIKE '$dbname'"))))
-    {
+    $mysqli = @new mysqli($data['hostname'], $data['username'], $data['password'], $data['database']);
+    
+    if ($mysqli->connect_error) {
+        // If connection fails, maybe the DB hasn't been created yet or credentials changed
+        $mysqli_no_db = @new mysqli($data['hostname'], $data['username'], $data['password'], '');
+        if ($mysqli_no_db->connect_error) {
+            header("Location: installer");
+            exit;
+        }
+        
+        $dbname = $data['database'];
+        $check_db = $mysqli_no_db->query("SHOW DATABASES LIKE '$dbname'");
+        if (!$check_db || $check_db->num_rows == 0) {
+            $mysqli_no_db->close();
+            header("Location: installer");
+            exit;
+        }
+        $mysqli_no_db->close();
+    } else {
         $mysqli->close();
-        header("Location: installer");
     }
-    else
-    {
-        $mysqli->close();
-        require_once BASEPATH . 'core/CodeIgniter.php';
-    }
+    
+    // All checks passed, load CodeIgniter
+    require_once BASEPATH . 'core/CodeIgniter.php';
 }

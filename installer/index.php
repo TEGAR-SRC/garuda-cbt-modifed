@@ -1,8 +1,19 @@
-<?php
 $base_url = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") ? "https" : "http");
 $base_url .= "://" . $_SERVER['HTTP_HOST'];
 $base_url .= str_replace(basename($_SERVER['SCRIPT_NAME']), "", $_SERVER['SCRIPT_NAME']);
 $base_url = str_replace('installer/', '', $base_url);
+
+// Check existing config
+$db_file = '../application/config/database.php';
+$is_configured = false;
+$existing_db = '';
+if (file_exists($db_file)) {
+    include $db_file;
+    if (isset($db['default']['database']) && $db['default']['database'] != '') {
+        $is_configured = true;
+        $existing_db = $db['default']['database'];
+    }
+}
 ?>
 
 <html lang="en">
@@ -45,25 +56,36 @@ $base_url = str_replace('installer/', '', $base_url);
             <div class="col-lg-6 d-lg-flex flex-lg-column align-items-stretch hero-img aos-init aos-animate pt-5" data-aos="fade-up">
                 <div class="card" style="background-color: rgba(255,255,255,.7);">
                     <div class="card-body">
+                        <?php if ($is_configured) : ?>
+                            <div class="alert alert-success">
+                                <h5><i class="icon fas fa-check"></i> Database Terdeteksi!</h5>
+                                Konfigurasi database untuk <b><?= $existing_db ?></b> sudah tersedia. Sanak bisa mencoba langsung masuk ke aplikasi jika instalasi database sudah selesai sebelumnya.
+                                <div class="mt-3">
+                                    <a href="<?= $base_url ?>" class="btn btn-success btn-block">MASUK KE APLIKASI (SKIP)</a>
+                                </div>
+                                <hr>
+                                <p class="text-sm">Atau sanak bisa isi ulang form di bawah jika ingin mengganti database atau memperbaiki tabel yang rusak.</p>
+                            </div>
+                        <?php endif; ?>
                         <form action="#" id="create" method="post" accept-charset="utf-8">
                             <div class="row">
                                 <div class="form-group col-12">
                                     <label for="input-nama-db">Host Name</label>
-                                    <input type="text" class="form-control db" id="input-nama-host" name="hostname" value="" placeholder="localhost" required="">
+                                    <input type="text" class="form-control db" id="input-nama-host" name="hostname" value="<?= isset($db['default']['hostname']) ? $db['default']['hostname'] : '' ?>" placeholder="localhost" required="">
                                 </div>
                                 <div class="form-group col-12" required="">
                                     <label for="input-nama-db">Host Username</label>
-                                    <input type="text" class="form-control db" id="input-user-host" name="username" value="" placeholder="Host Username">
+                                    <input type="text" class="form-control db" id="input-user-host" name="username" value="<?= isset($db['default']['username']) ? $db['default']['username'] : '' ?>" placeholder="Host Username">
                                 </div>
                                 <div class="form-group col-12" required="">
                                     <label for="input-nama-db">Host Password</label>
-                                    <input type="text" class="form-control" id="input-pass-host" value="" name="password" placeholder="Host Password">
+                                    <input type="text" class="form-control" id="input-pass-host" value="<?= isset($db['default']['password']) ? $db['default']['password'] : '' ?>" name="password" placeholder="Host Password">
                                     <small class="form-text text-muted">Kosongkan jika tidak menggunakan password.
                                     </small>
                                 </div>
                                 <div class="form-group col-12" required="">
                                     <label for="input-nama-db">Nama Database</label>
-                                    <input type="text" class="form-control db" id="input-nama-db" name="database" value="" placeholder="Nama Database">
+                                    <input type="text" class="form-control db" id="input-nama-db" name="database" value="<?= isset($db['default']['database']) ? $db['default']['database'] : '' ?>" placeholder="Nama Database">
                                     <small class="form-text text-muted">Jangan gunakan spasi.</small>
                                 </div>
                             </div>
